@@ -31,8 +31,6 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         id= findViewById(R.id.id);
         bContinuarR=findViewById(R.id.bContinuarR);
         usuarios= new ArrayList<Usuario>();
-        nombre="jfirj";
-        puntaje="5";
 
 
         //click boton
@@ -42,14 +40,13 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
     public void onClick(View view){
-        Log.e(" ", "esto deberia pintarse");
         //obtengo los datos
         nombre= name.getText().toString();
         iden= id.getText().toString();
 
 
         usuarios.add(new Usuario(nombre, puntaje));
-
+        Log.e(" ", "esto deberia pintarse");
 
 
 
