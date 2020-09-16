@@ -51,14 +51,10 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
         agregarUser();
 
-//        Log.e("Hola", puntaje);
-
     }
 
 
     public void onClick(View view){
-
-
 
         //obtengo los datos
         nombre= name.getText().toString();
@@ -81,15 +77,15 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         SharedPreferences preferences= getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putString("nombreFinal", nombre).apply();
 
-
-
-
     }
+
+
 
     public void agregarUser(){
 
         String nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombreFinal", null);
         puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
+
 
         //añado usuarios
         if(nombre!= null || puntaje != null) {
@@ -102,7 +98,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             Log.e("Hola", a);
         }
 
-        
+
         //Shared Preferences, guardo los datos de mi usuario
         SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putStringSet("usuario",usuarios).apply();
