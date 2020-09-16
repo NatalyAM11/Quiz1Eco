@@ -33,7 +33,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         name=findViewById(R.id.name);
         id= findViewById(R.id.id);
         bContinuarR=findViewById(R.id.bContinuarR);
+
         usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
+        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");
 
         if(usuarios==null){
             usuarios=new HashSet<String>();
@@ -56,9 +58,6 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
 
-
-
-
         //No dejo pasar al usuario hasta que ponga todos los datos
         if(nombre.trim().isEmpty() || iden.trim().isEmpty()) {
             Toast.makeText(this, "Alguno de los campos no ha sido llenado", Toast.LENGTH_LONG).show();
@@ -66,20 +65,21 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         }
 
 
+        //añado usuarios
+        usuarios.add(nombre+"  "+ puntaje);
 
-        usuarios.add(nombre+":"+ iden);
+
 
         for(Iterator<String> it = usuarios.iterator(); it.hasNext();) {
             String a= it.next();
-            Log.e("ff", a);
+            Log.e("Hola", a);
         }
 
 
         //Shared Preferences, guardo los datos de mi usuario
         SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putStringSet("usuario",usuarios).apply();
-        /*preferences.edit().putString("id",iden).apply();
-        preferences.edit().putStringSet("id", new HashSet(usuarios)).apply();*/
+
 
         //Paso a la siguiente pantalla
         Intent i= new Intent(this,Nexo.class);

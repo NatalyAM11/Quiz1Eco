@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Set<String> pref= getSharedPreferences("locker",MODE_PRIVATE).getStringSet("usuario", null);
+
         Log.e(" fjf", String.valueOf(pref));
         //obtengo los datos del usuario por el shared preferences
         /*nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombre", "NO_USER");
@@ -75,11 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (String s: pref){
                         runOnUiThread( ()->users.append(s + "\n"));
                     }
-
-                  /*  for(int i=0; i<usuarios.size(); i++) {
-                        String usu=usuarios.get(i).devolverPregunta();
-                        runOnUiThread( ()->users.append(usu + "\n"));
-                    }*/
                 }
 
         ).start();
