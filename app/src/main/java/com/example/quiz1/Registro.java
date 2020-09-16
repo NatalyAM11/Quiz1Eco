@@ -23,27 +23,35 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     String nombre,iden;
     Set<String> usuarios;
     String puntaje;
+    int cosito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+       //getSharedPreferences("locker",MODE_PRIVATE).edit().clear().apply();
+
         //
         name=findViewById(R.id.name);
         id= findViewById(R.id.id);
         bContinuarR=findViewById(R.id.bContinuarR);
+        cosito=0;
+
 
         usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
-        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");
+        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
 
         if(usuarios==null){
             usuarios=new HashSet<String>();
         }
 
-
         //click boton
         bContinuarR.setOnClickListener(this);
+
+        agregarUser();
+
+//        Log.e("Hola", puntaje);
 
     }
 
@@ -65,9 +73,28 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         }
 
 
-        //añado usuarios
-        usuarios.add(nombre+"  "+ puntaje);
+        //Paso a la siguiente pantalla
+        Intent i= new Intent(this,Nexo.class);
+        startActivity(i);
 
+        //meto el puntaje final en el shared preferences
+        SharedPreferences preferences= getSharedPreferences("locker", MODE_PRIVATE);
+        preferences.edit().putString("nombreFinal", nombre).apply();
+
+
+
+
+    }
+
+    public void agregarUser(){
+
+        String nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombreFinal", null);
+        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
+
+        //añado usuarios
+        if(nombre!= null || puntaje != null) {
+            usuarios.add(nombre + "  " + puntaje);
+        }
 
 
         for(Iterator<String> it = usuarios.iterator(); it.hasNext();) {
@@ -75,19 +102,12 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             Log.e("Hola", a);
         }
 
-
+        
         //Shared Preferences, guardo los datos de mi usuario
         SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putStringSet("usuario",usuarios).apply();
 
-
-        //Paso a la siguiente pantalla
-        Intent i= new Intent(this,Nexo.class);
-        startActivity(i);
-
-
-
-
-
     }
+
+
 }

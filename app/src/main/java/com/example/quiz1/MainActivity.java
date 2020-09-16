@@ -3,6 +3,7 @@ package com.example.quiz1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -31,11 +33,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         users = findViewById(R.id.users);
         bRegistro = findViewById(R.id.bRegistro);
 
+        //getSharedPreferences("locker",MODE_PRIVATE).edit().clear().apply();
+
 
         Set<String> pref= getSharedPreferences("locker",MODE_PRIVATE).getStringSet("usuario", null);
-        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");
+        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
 
-        Log.e(" fjf", String.valueOf(pref));
+        Log.e(" Usuarios", String.valueOf(pref));
+//        Log.e("cadena", puntaje);
         //obtengo los datos del usuario por el shared preferences
         /*nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombre", "NO_USER");
         puntaje = getSharedPreferences("locker", MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");*/
@@ -44,14 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.e(" ", "hola");
 
-            usuarios.add(new Usuario(nombre, puntaje));
+        //usuarios.add(new Usuario(nombre, puntaje));
 
-
-
-
-        //usuario= new Usuario(nombre,id);
-        //users.setText(" "+ nombre+" "+ id);
-        //users.setText(usuario+ " ");
         pintarUsuario(pref);
 
         //click Boton
@@ -74,8 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 ()->{
 
-                    for (String s: pref){
-                        runOnUiThread( ()->users.append(s + "\n"));
+                    if(pref!= null) {
+                        for (String s : pref) {
+                            runOnUiThread(() -> users.append(s + "\n"));
+                        }
                     }
                 }
 

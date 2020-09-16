@@ -12,11 +12,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class Sintomas extends AppCompatActivity implements View.OnClickListener {
 
     private CheckBox s1,s2,s3,s4,s5,s6;
     private Button bFinalizar;
     int puntaje;
+    Set<String> addUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,7 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
 
         //recibo el puntaje de la pantalla nexo
         puntaje=getIntent().getExtras().getInt("puntaje");
+
 
         bFinalizar=findViewById(R.id.bFinalizar);
         s1= findViewById(R.id.s1);
@@ -155,6 +161,8 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
         SharedPreferences preferences= getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putString("puntajeFinal", String.valueOf(puntaje)).apply();
 
+
+
         //Controlo el cambio de boton, sino le ha dado a ningun checkbox el boton esta oscuro. Si ya le dio vuelve a su color normal
         if(s1.isChecked()==false || s2.isChecked()==false || s3.isChecked()==false || s4.isChecked()==false || s5.isChecked()==false || s6.isChecked()==false){
           bFinalizar.setBackgroundColor(Color.rgb(28,131,131));
@@ -165,4 +173,6 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
         Log.e("que dio", String.valueOf(puntaje));
 
     }
+
+
 }
