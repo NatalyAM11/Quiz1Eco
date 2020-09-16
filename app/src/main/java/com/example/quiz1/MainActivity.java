@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Set<String> pref= getSharedPreferences("locker",MODE_PRIVATE).getStringSet("usuario", null);
+        puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");
 
         Log.e(" fjf", String.valueOf(pref));
         //obtengo los datos del usuario por el shared preferences
