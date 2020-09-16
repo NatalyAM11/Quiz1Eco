@@ -12,13 +12,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Registro extends AppCompatActivity implements View.OnClickListener {
 
     private EditText name, id;
     private Button bContinuarR;
     String nombre,iden;
-    ArrayList<Usuario> usuarios;
+    Set<String> usuarios;
     String puntaje;
 
     @Override
@@ -30,7 +33,11 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         name=findViewById(R.id.name);
         id= findViewById(R.id.id);
         bContinuarR=findViewById(R.id.bContinuarR);
-        usuarios= new ArrayList<Usuario>();
+        usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
+
+        if(usuarios==null){
+            usuarios=new HashSet<String>();
+        }
 
 
         //click boton
@@ -40,13 +47,15 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
     public void onClick(View view){
+
+
+
         //obtengo los datos
         nombre= name.getText().toString();
         iden= id.getText().toString();
 
 
-        usuarios.add(new Usuario(nombre, puntaje));
-        Log.e(" ", "esto deberia pintarse");
+
 
 
 
@@ -56,15 +65,28 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
+
+
+        usuarios.add(nombre+":"+ iden);
+
+        for(Iterator<String> it = usuarios.iterator(); it.hasNext();) {
+            String a= it.next();
+            Log.e("ff", a);
+        }
+
+
+        //Shared Preferences, guardo los datos de mi usuario
+        SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
+        preferences.edit().putStringSet("usuario",usuarios).apply();
+        /*preferences.edit().putString("id",iden).apply();
+        preferences.edit().putStringSet("id", new HashSet(usuarios)).apply();*/
+
         //Paso a la siguiente pantalla
         Intent i= new Intent(this,Nexo.class);
         startActivity(i);
 
 
-        //Shared Preferences, guardo los datos de mi usuario
-        SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
-        preferences.edit().putString("nombre",nombre).apply();
-        preferences.edit().putString("id",iden).apply();
+
 
 
     }

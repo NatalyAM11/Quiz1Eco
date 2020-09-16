@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String nombre, id, puntaje;
     private Usuario usuario;
 
-    ArrayList<Usuario> usuarios;
+    ArrayList<Usuario> usuarios= new ArrayList<Usuario>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +30,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //
         users = findViewById(R.id.users);
         bRegistro = findViewById(R.id.bRegistro);
-        usuarios= new ArrayList<Usuario>();
 
 
+        Set<String> pref= getSharedPreferences("locker",MODE_PRIVATE).getStringSet("usuario", null);
+        Log.e(" fjf", String.valueOf(pref));
         //obtengo los datos del usuario por el shared preferences
-        nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombre", "NO_USER");
-        puntaje = getSharedPreferences("locker", MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");
-        id=getSharedPreferences("locker",MODE_PRIVATE).getString("id", "NO_ID");
+        /*nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombre", "NO_USER");
+        puntaje = getSharedPreferences("locker", MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");*/
+        //id=getSharedPreferences("locker",MODE_PRIVATE).getString("id", "NO_ID");
 
 
         Log.e(" ", "hola");
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //usuario= new Usuario(nombre,id);
         //users.setText(" "+ nombre+" "+ id);
         //users.setText(usuario+ " ");
-        pintarUsuario();
+        pintarUsuario(pref);
 
         //click Boton
         bRegistro.setOnClickListener(this);
@@ -64,16 +66,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void pintarUsuario(){
+    public void pintarUsuario( Set<String> pref){
 
         new Thread(
 
                 ()->{
 
-                    for(int i=0; i<usuarios.size(); i++) {
+                    for (String s: pref){
+                        runOnUiThread( ()->users.append(s + "\n"));
+                    }
+
+                  /*  for(int i=0; i<usuarios.size(); i++) {
                         String usu=usuarios.get(i).devolverPregunta();
                         runOnUiThread( ()->users.append(usu + "\n"));
-                    }
+                    }*/
                 }
 
         ).start();
