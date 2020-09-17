@@ -23,7 +23,6 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     String nombre,iden;
     Set<String> usuarios;
     String puntaje;
-    int cosito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +35,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         name=findViewById(R.id.name);
         id= findViewById(R.id.id);
         bContinuarR=findViewById(R.id.bContinuarR);
-        cosito=0;
 
 
+        //obtengo al usuario y al puntaje
         usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
         puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
 
@@ -49,7 +48,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         //click boton
         bContinuarR.setOnClickListener(this);
 
-        agregarUser();
+        //agregarUser();
 
     }
 
@@ -73,7 +72,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         Intent i= new Intent(this,Nexo.class);
         startActivity(i);
 
-        //meto el puntaje final en el shared preferences
+        //meto el nombre en el shared preferences
         SharedPreferences preferences= getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putString("nombreFinal", nombre).apply();
 
@@ -81,7 +80,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
 
 
-    public void agregarUser(){
+     /* public void agregarUser(){
 
         String nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombreFinal", null);
         puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
@@ -103,7 +102,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putStringSet("usuario",usuarios).apply();
 
-    }
+    }*/
 
 
 }

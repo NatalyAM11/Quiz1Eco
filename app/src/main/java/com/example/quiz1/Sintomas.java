@@ -21,15 +21,26 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
     private CheckBox s1,s2,s3,s4,s5,s6;
     private Button bFinalizar;
     int puntaje;
-    Set<String> addUser;
+    Set<String> usuarios;
+    String nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sintomas);
 
-        //recibo el puntaje de la pantalla nexo
+        //recibo el el al usuario
+        usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
+
+        //recibo el nombre y su puntaje
+        nombre=getSharedPreferences("locker",MODE_PRIVATE).getString("nombreFinal", null);
         puntaje=getIntent().getExtras().getInt("puntaje");
+
+
+        //evito que me de error por el null
+        if(usuarios==null){
+            usuarios=new HashSet<String>();
+        }
 
 
         bFinalizar=findViewById(R.id.bFinalizar);
@@ -51,6 +62,9 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
         //click boton
         bFinalizar.setOnClickListener(this);
 
+
+        Log.e("que pasa", String.valueOf(nombre));
+
     }
 
 
@@ -67,6 +81,9 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(this,"Debe escoger alguna de las opciones", Toast.LENGTH_LONG).show();
                     return;
                 }
+
+                //metodo para crear el usuario
+                agregarUser();
 
 
             //Paso a la otra pantalla
@@ -171,6 +188,29 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
         }
 
         Log.e("que dio", String.valueOf(puntaje));
+
+    }
+
+
+
+    public void agregarUser(){
+
+        String nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombreFinal", null);
+
+        //añado usuarios
+        if(nombre!= null) {
+            usuarios.add(nombre + "  " + puntaje);
+        }
+
+
+        for(Iterator<String> it = usuarios.iterator(); it.hasNext();) {
+            String a= it.next();
+        }
+
+
+        //Shared Preferences, guardo los datos de mi usuario
+        SharedPreferences preferences=getSharedPreferences("locker", MODE_PRIVATE);
+        preferences.edit().putStringSet("usuario",usuarios).apply();
 
     }
 

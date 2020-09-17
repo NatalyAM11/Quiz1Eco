@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,24 +34,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         users = findViewById(R.id.users);
         bRegistro = findViewById(R.id.bRegistro);
 
+        users.setMovementMethod(new ScrollingMovementMethod());
+
         //getSharedPreferences("locker",MODE_PRIVATE).edit().clear().apply();
 
 
+        //obtengo los datos del usuario y su puntaje en el shared preferences
         Set<String> pref= getSharedPreferences("locker",MODE_PRIVATE).getStringSet("usuario", null);
         puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
 
         Log.e(" Usuarios", String.valueOf(pref));
-//        Log.e("cadena", puntaje);
-        //obtengo los datos del usuario por el shared preferences
-        /*nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombre", "NO_USER");
-        puntaje = getSharedPreferences("locker", MODE_PRIVATE).getString("puntajeFinal", "NO_PUNTAJE");*/
-        //id=getSharedPreferences("locker",MODE_PRIVATE).getString("id", "NO_ID");
 
-
-        Log.e(" ", "hola");
 
         //usuarios.add(new Usuario(nombre, puntaje));
 
+
+        //pinto los usuarios
         pintarUsuario(pref);
 
         //click Boton
