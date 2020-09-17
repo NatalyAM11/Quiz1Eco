@@ -20,7 +20,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
     private EditText name, id;
     private Button bContinuarR;
-    String nombre,iden;
+    String nombre,iden,identi,namee;
     Set<String> usuarios;
     String puntaje;
 
@@ -29,7 +29,6 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-       //getSharedPreferences("locker",MODE_PRIVATE).edit().clear().apply();
 
         //
         name=findViewById(R.id.name);
@@ -37,9 +36,14 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         bContinuarR=findViewById(R.id.bContinuarR);
 
 
-        //obtengo al usuario y al puntaje
+        //obtengo al usuario
         usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
+
+        //Obtengo todoss los datos del usuario, del shared preferences
         puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
+        identi=getSharedPreferences("locker", MODE_PRIVATE).getString("id", null);
+        namee=getSharedPreferences("locker",MODE_PRIVATE).getString("nombreFinal", null);
+
 
         if(usuarios==null){
             usuarios=new HashSet<String>();
@@ -49,6 +53,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         bContinuarR.setOnClickListener(this);
 
         //agregarUser();
+
+        Log.e(">>>", String.valueOf(usuarios));
 
     }
 
@@ -67,19 +73,30 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
+        //No dejo pasar al usuario si se intenta registrar de nuevo
+        //Valido que no e de error si esta null
+        if(identi!= null) {
+            if (identi.contains(iden)) {
+                Toast.makeText(this, "Este usuario ya esta registrado", Toast.LENGTH_LONG).show();
+                Log.e(">>>", "Holaaa");
+                return;
+            }
+        }
+
 
         //Paso a la siguiente pantalla
         Intent i= new Intent(this,Nexo.class);
         startActivity(i);
 
-        //meto el nombre en el shared preferences
+        //meto el nombre y la identificacion en el shared preferences
         SharedPreferences preferences= getSharedPreferences("locker", MODE_PRIVATE);
         preferences.edit().putString("nombreFinal", nombre).apply();
+        preferences.edit().putString("id", iden).apply();
 
     }
 
 
-
+    //Este metodo agregar al usuario, la mande a Sintomas para que los cree cuando pasa a la otra pantalla
      /* public void agregarUser(){
 
         String nombre = getSharedPreferences("locker", MODE_PRIVATE).getString("nombreFinal", null);

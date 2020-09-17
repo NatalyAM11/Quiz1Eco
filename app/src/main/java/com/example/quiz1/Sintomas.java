@@ -22,7 +22,7 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
     private Button bFinalizar;
     int puntaje;
     Set<String> usuarios;
-    String nombre;
+    String nombre, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,9 @@ public class Sintomas extends AppCompatActivity implements View.OnClickListener 
         //recibo el el al usuario
         usuarios = getSharedPreferences("locker", MODE_PRIVATE).getStringSet("usuario", null);
 
-        //recibo el nombre y su puntaje
+        //recibo todos los datos del usuario del shared preferences
         nombre=getSharedPreferences("locker",MODE_PRIVATE).getString("nombreFinal", null);
+        id=getSharedPreferences("locker", MODE_PRIVATE).getString("id", null);
         puntaje=getIntent().getExtras().getInt("puntaje");
 
 

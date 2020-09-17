@@ -34,22 +34,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         users = findViewById(R.id.users);
         bRegistro = findViewById(R.id.bRegistro);
 
+        //Le doy scroll a la lista cuando ya es muy grande
         users.setMovementMethod(new ScrollingMovementMethod());
 
+        //Aqui limpio el arraylist cuando necesite
         //getSharedPreferences("locker",MODE_PRIVATE).edit().clear().apply();
 
 
-        //obtengo los datos del usuario y su puntaje en el shared preferences
+        //obtengo los datos del usuario y su puntaje en el shared preferences para poder pintarlo aca
         Set<String> pref= getSharedPreferences("locker",MODE_PRIVATE).getStringSet("usuario", null);
         puntaje=getSharedPreferences("locker",MODE_PRIVATE).getString("puntajeFinal", null);
 
         Log.e(" Usuarios", String.valueOf(pref));
 
 
-        //usuarios.add(new Usuario(nombre, puntaje));
-
-
-        //pinto los usuarios
+        //ya pinto los usuarios
         pintarUsuario(pref);
 
         //click Boton
@@ -66,12 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    //Metodo para pintar los usarios
     public void pintarUsuario( Set<String> pref){
 
         new Thread(
 
                 ()->{
-
+                    //valido que no me de error por un null
                     if(pref!= null) {
                         for (String s : pref) {
                             runOnUiThread(() -> users.append(s + "\n"));
